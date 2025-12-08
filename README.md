@@ -84,7 +84,7 @@ RESULTS FOR FILE: ayah/Loaf_bread.wav
 
 | Feature | Extracted via | How it’s used |
 | --- | --- | --- |
-| Dominant FFT bin | `np.argmax(|FFT|)` | Checks if energy concentrates above/below ~300 Hz |
+| Dominant FFT bin | `np.argmax(FFT)` | Checks if energy concentrates above/below ~300 Hz |
 | Fundamental frequency (`pitch_median`) | `librosa.yin` | Primary cue for both age (child voices above ~220 Hz) and gender (male voices below ~160 Hz) |
 | Spectral centroid/rolloff/bandwidth | `librosa.feature.*` | Proxy for brightness; higher values skew toward child/female |
 | Zero crossing rate | `librosa.feature.zero_crossing_rate` | Distinguishes noisier/brighter timbres |
@@ -113,7 +113,7 @@ The MATLAB script mirrors the Python feature logic so results should qualitative
 
 ## Troubleshooting & tips
 
-- **Audio playback fails** – ensure `sounddevice` is installed and your Python session has access to the system audio device. On macOS, you may need to grant microphone/speaker permissions the first time.
+- **Audio playback fails** – ensure `sounddevice` is installed and your Python session has access to the system audio device.
 - **Matplotlib windows on servers** – set `export MPLBACKEND=Agg` or switch to saving figures instead of `plt.show()`.
 - **Different sample rates** – `librosa.load` resamples to `SAMPLING_RATE`. If you want the native rate, set `sr=None` in `librosa.load` and propagate the actual rate through the pipeline.
 - **Non-WAV inputs** – install `ffmpeg` and point `AUDIO_FILE` at any format that `librosa` understands.
