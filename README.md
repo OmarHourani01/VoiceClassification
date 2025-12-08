@@ -1,4 +1,4 @@
-### Voice Classification / FFT Audio Analyzer
+# Voice Classification / FFT Audio Analyzer
 
 Small audio lab for exploring how far you can get with classic DSP blocks (FFT, spectral descriptors, heuristics) before reaching for a neural network. The Python script `fft.py` loads a spoken-word WAV file, plots it in both domains, extracts pitch/timbre descriptors with `librosa`, and assigns rough age/gender labels using transparent scoring rules. A MATLAB port (`fft_analysis.m`) mirrors the workflow for users who prefer MATLAB toolboxes.
 
@@ -33,7 +33,7 @@ Small audio lab for exploring how far you can get with classic DSP blocks (FFT, 
 - Audio Toolbox (for `pitch`, spectral descriptors)
 - Signal Processing Toolbox (for `bandpass`, `filtfilt`, `resample`)
 
-## Quick start
+## Python Installation
 
 ```bash
 # 1. Clone
@@ -48,7 +48,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Using the Python analyzer
+### Using the Python analyzer
 
 1. Choose an input WAV file.
 	 - Easiest: edit the `AUDIO_FILE` constant at the top of `fft.py` (defaults to `ayah/Loaf_bread.wav`).
@@ -99,7 +99,7 @@ Scores accumulate with transparent weights (see `determine_age` and `determine_g
 - `plot_waveform_frequency_domain` visualizes the single-sided FFT magnitude so you can spot dominant harmonics.
 - You can save figures instead of showing them by inserting `plt.savefig("waveform.png")` / `plt.savefig("spectrum.png")` before `plt.show()` if you plan to run headless.
 
-## Sample audio bundles
+### Sample audio bundles
 
 - `samples/omar.wav`, `samples/shot.wav`, `samples/woman*.wav`: shorter utterances to test different timbres quickly.
 	- Tip: keep everything as mono WAV files; `librosa` will down-mix for you, but mono avoids surprises.
