@@ -19,7 +19,6 @@ Small audio lab for exploring how far you can get with classic DSP blocks (FFT, 
 | `fft.py` | Primary Python analyzer using `librosa`, `scipy`, and `matplotlib` |
 | `fft_analysis.m` | MATLAB clone with Audio/Signal Toolbox dependencies |
 | `samples/*.wav` | Ready-made demo utterances |
-| `ayah/*.wav` | Longer recitations used during development (default input) |
 | `requirements.txt` | Python dependency pin list |
 
 ## Requirements
