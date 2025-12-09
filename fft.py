@@ -25,7 +25,7 @@ def test_audio_playback(waveform, sampling_rate):
             sd.play(waveform, samplerate=sampling_rate)
             sd.wait()
             return True
-        except Exception as exc:  # pragma: no cover - runtime audio errors
+        except Exception as exc:
             print(f"Audio playback failed: {exc}")
             return False
 
@@ -33,11 +33,7 @@ def test_audio_playback(waveform, sampling_rate):
         display(Audio(waveform, rate=sampling_rate))
         print("Displayed audio widget (requires notebook environment).")
         return True
-
-    print(
-        "Audio playback requires the 'sounddevice' package. Install it with"
-        " 'pip install sounddevice'."
-    )
+    
     return False
 
 def record_audio(filename="ouput"):
@@ -59,12 +55,7 @@ def record_audio(filename="ouput"):
         audio_queue.put(indata.copy())
 
     try:
-        with sd.InputStream(
-            samplerate=sample_rate,
-            channels=channels,
-            blocksize=block_size,
-            callback=callback,
-        ):
+        with sd.InputStream(samplerate=sample_rate, channels=channels, blocksize=block_size, callback=callback):
             while True:
                 frames.append(audio_queue.get())
     except KeyboardInterrupt:
@@ -74,8 +65,7 @@ def record_audio(filename="ouput"):
         raise RuntimeError("No audio data captured; recording aborted.")
 
     audio_data = np.concatenate(frames, axis=0)
-
-    # Save WAV file
+    
     wavio.write(filename, audio_data, sample_rate, sampwidth=2)
 
     print(f"Saved as {filename}")
