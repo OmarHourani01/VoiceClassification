@@ -1,14 +1,19 @@
-import librosa
-import numpy as np
-import matplotlib.pyplot as plt
 from scipy.fft import fft
 from scipy.signal import butter, sosfiltfilt
 from IPython.display import Audio, display
+
+import queue
+import librosa
+import numpy as np
+import matplotlib.pyplot as plt
 import soundfile as sf
 import sounddevice as sd
+import wavio
 
-AUDIO_FILE = "ayah/Loaf_bread.wav"
+
 # AUDIO_FILE = "samples/woman.wav"
+
+AUDIO_FILE = None
 SAMPLING_RATE = 16000
 
 
@@ -35,13 +40,48 @@ def test_audio_playback(waveform, sampling_rate):
     )
     return False
 
-def record_audio():
-    #TODO: Implement audio recording functionality
-    
-    # Output should be the path to the recorded audio file
-    pass
+def record_audio(filename="ouput"):
 
+    sample_rate = 44100
+    channels = 1
+    block_size = 1024
 
+    filename = filename + ".wav"
+
+    print("Recording... Press Ctrl+C to stop.")
+
+    frames = []
+    audio_queue = queue.Queue()
+
+    def callback(indata, frames_count, time_info, status):
+        if status:
+            print(f"Recording warning: {status}", flush=True)
+        audio_queue.put(indata.copy())
+
+    try:
+        with sd.InputStream(
+            samplerate=sample_rate,
+            channels=channels,
+            blocksize=block_size,
+            callback=callback,
+        ):
+            while True:
+                frames.append(audio_queue.get())
+    except KeyboardInterrupt:
+        print("\nStopped recording.")
+
+    if not frames:
+        raise RuntimeError("No audio data captured; recording aborted.")
+
+    audio_data = np.concatenate(frames, axis=0)
+
+    # Save WAV file
+    wavio.write(filename, audio_data, sample_rate, sampwidth=2)
+
+    print(f"Saved as {filename}")
+
+    return filename
+        
 
 def waveform_info(waveform, audio_file):
     amplitude_range = np.max(waveform) - np.min(waveform)
@@ -233,9 +273,15 @@ def determine_gender(spectrum, sampling_rate, voice_features):
 
 
 def main():
-    audio_dir = input("Do you want to record audio? (y/n): ")
-    if audio_dir.lower() == "y":
-        recorded_audio_file = record_audio()        
+    audio_ask = input("Do you want to record audio? (y/n): ")
+    recorded_audio_file = None
+    
+    if audio_ask.lower() == "y":
+        audio_dir = input("Enter name of file (optional):")
+        if not audio_dir:
+            recorded_audio_file = record_audio()
+        else:
+            recorded_audio_file = record_audio(audio_dir)
     
     if not AUDIO_FILE and not recorded_audio_file:
         audio_file = input("Enter path of WAV file: ")

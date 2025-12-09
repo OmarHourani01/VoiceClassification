@@ -60,6 +60,8 @@ source venv/bin/activate
 python fft.py
 ```
 
+- When you choose to record inside the script, press `Ctrl+C` at any time to stop; the captured audio up to that point is saved automatically.
+
 4. When prompted, type `y` to hear the audio via `sounddevice`, or `n` to continue silently.
 5. Inspect the console summary and the two Matplotlib plots (time domain + FFT magnitude). On headless servers, set `MPLBACKEND=Agg` if you only want files saved instead of GUI windows.
 
