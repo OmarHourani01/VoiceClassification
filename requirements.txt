@@ -5,3 +5,4 @@ scipy>=1.10
 sounddevice>=0.4
 soundfile>=0.12
 ipython>=8.0
+wavio==0.0.9
