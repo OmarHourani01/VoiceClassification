@@ -35,6 +35,13 @@ def test_audio_playback(waveform, sampling_rate):
     )
     return False
 
+def record_audio():
+    #TODO: Implement audio recording functionality
+    
+    # Output should be the path to the recorded audio file
+    pass
+
+
 
 def waveform_info(waveform, audio_file):
     amplitude_range = np.max(waveform) - np.min(waveform)
@@ -225,21 +232,28 @@ def determine_gender(spectrum, sampling_rate, voice_features):
 
 
 
-def main():    
-    if not AUDIO_FILE:
+def main():
+    audio_dir = input("Do you want to record audio? (y/n): ")
+    if audio_dir.lower() == "y":
+        recorded_audio_file = record_audio()        
+    
+    if not AUDIO_FILE and not recorded_audio_file:
         audio_file = input("Enter path of WAV file: ")
-    else:
+    elif not recorded_audio_file:
         audio_file = AUDIO_FILE
+    else:
+        audio_file = recorded_audio_file
         
     raw_waveform, actual_sampling_rate = librosa.load(
         audio_file, sr=SAMPLING_RATE, mono=True
     )
-    # waveform = bandpass_filter(raw_waveform, actual_sampling_rate)
+
     spectrum = fft(raw_waveform)
 
     playback = input("Do you want to play the audio? (y/n): ")
     if playback.lower() == "y":
         played = test_audio_playback(raw_waveform, actual_sampling_rate)
+        
         if played:
             quit()
         else:
