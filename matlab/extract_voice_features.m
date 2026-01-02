@@ -1,9 +1,7 @@
 function features = extract_voice_features(waveform, samplingRate)
-%EXTRACT_VOICE_FEATURES Compute acoustic features similar to fft.py.
 
     features = struct();
 
-    % Fundamental frequency estimate.
     try
         f0 = pitch(waveform, samplingRate, ...
             'Method', 'SRH', ...
@@ -25,7 +23,6 @@ function features = extract_voice_features(waveform, samplingRate)
         features.pitch_range = NaN;
     end
 
-    % Spectral descriptors.
     try
         features.spectral_centroid = mean(spectralCentroid(waveform, samplingRate));
     catch
@@ -44,7 +41,6 @@ function features = extract_voice_features(waveform, samplingRate)
         features.spectral_rolloff = NaN;
     end
 
-    % Zero-crossing rate + RMS.
     zeroCrossings = sum(abs(diff(sign(waveform)))) / (2 * numel(waveform));
     features.zero_crossing_rate = zeroCrossings;
     features.rms_energy = rms(waveform);

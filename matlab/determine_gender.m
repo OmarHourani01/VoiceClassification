@@ -1,5 +1,4 @@
 function [gender, scores] = determine_gender(spectrum, samplingRate, voiceFeatures)
-%DETERMINE_GENDER Match fft.py scoring rules.
 
     dominantFrequency = dominant_frequency_from_spectrum(spectrum, samplingRate);
 

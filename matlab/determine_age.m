@@ -1,5 +1,4 @@
 function [ageGroup, scores] = determine_age(spectrum, samplingRate, voiceFeatures)
-%DETERMINE_AGE Match fft.py scoring rules.
 
     dominantFrequency = dominant_frequency_from_spectrum(spectrum, samplingRate);
 

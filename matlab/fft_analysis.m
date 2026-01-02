@@ -30,7 +30,6 @@ function fft_analysis()
         actualSR = SAMPLING_RATE;
     end
 
-    % Apply a Butterworth bandpass filter (matching fft.py helper defaults).
     filteredWaveform = bandpass_filter(rawWaveform, actualSR, 0, 1000.0, 5);
     spectrum = fft(filteredWaveform);
 
@@ -44,16 +43,17 @@ function fft_analysis()
         end
     end
 
-    [amplitudeRange, bitDepth] = waveform_info(rawWaveform, audioFile);
-
-    disp('Waveform Information:');
-    fprintf('Amplitude Range: %.6f\n', amplitudeRange);
-    fprintf('Bit Depth: %d bits\n\n', bitDepth);
-
+    
     voiceFeatures = extract_voice_features(filteredWaveform, actualSR);
     [ageGroup, ageScores] = determine_age(spectrum, actualSR, voiceFeatures);
     [gender, genderScores] = determine_gender(spectrum, actualSR, voiceFeatures);
-
+    
+    disp('Waveform Information:');
+    fprintf('RMS Energy: %.6f\n', voiceFeatures.rms_energy);
+    fprintf('Zero Crossing Rate: %d\n\n', voiceFeatures.zero_crossing_rate);
+    fprintf('Spectral Bandwidth: %d\n\n', voiceFeatures.spectral_bandwidth);
+    fprintf('Spectral Centroid: %d\n\n', voiceFeatures.spectral_centroid);
+    fprintf('Pitch Range: %d\n\n', voiceFeatures.pitch_range);
     scores = ageScores;
     scores.male_score = genderScores.male_score;
     scores.female_score = genderScores.female_score;
