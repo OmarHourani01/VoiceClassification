@@ -84,7 +84,7 @@ def waveform_info(waveform, audio_file):
     return amplitude_range, bit_depth
 
 
-def bandpass_filter(waveform, sampling_rate, low_hz=1.0, high_hz=1000.0, order=4):
+def bandpass_filter(waveform, sampling_rate, low_hz=1.0, high_hz=3500.0, order=2):
     """Apply a simple Butterworth band-pass filter between low_hz and high_hz."""
 
     nyquist = 0.5 * sampling_rate

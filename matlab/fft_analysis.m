@@ -30,7 +30,7 @@ function fft_analysis()
         actualSR = SAMPLING_RATE;
     end
 
-    filteredWaveform = bandpass_filter(rawWaveform, actualSR, 0, 1000.0, 5);
+    filteredWaveform = bandpass_filter(rawWaveform, actualSR, 1, 4500.0, 2);
     spectrum = fft(filteredWaveform);
 
     playback = input('Do you want to play the audio? (y/n): ', 's');
