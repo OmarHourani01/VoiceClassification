@@ -1,6 +1,6 @@
 function fft_analysis()
 
-    AUDIO_FILE = '/Users/Omar/dev/DSPProject/samples/shot.wav';
+    AUDIO_FILE = '/Users/Omar/dev/DSPProject/samples/woman.wav';
     SAMPLING_RATE = 16000;
 
     if isempty(strtrim(AUDIO_FILE))
