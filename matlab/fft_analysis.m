@@ -1,13 +1,6 @@
 function fft_analysis()
-% How it works:
-%     - load WAV -> mono -> resample to 16 kHz
-%     - bandpass filter waveform
-%     - FFT on filtered waveform
-%     - optional playback
-%     - heuristic age/gender via acoustic features
-%     - waveform + spectrum plots
 
-    AUDIO_FILE = '/Users/Omar/dev/DSPProject/samples/woman.wav';
+    AUDIO_FILE = '/Users/Omar/dev/DSPProject/samples/shot.wav';
     SAMPLING_RATE = 16000;
 
     if isempty(strtrim(AUDIO_FILE))
@@ -30,7 +23,8 @@ function fft_analysis()
         actualSR = SAMPLING_RATE;
     end
 
-    filteredWaveform = bandpass_filter(rawWaveform, actualSR, 1, 4500.0, 2);
+    % filteredWaveform = bandpass_filter(rawWaveform, actualSR, 1, 4500.0, 2);
+    filteredWaveform = rawWaveform;
     spectrum = fft(filteredWaveform);
 
     playback = input('Do you want to play the audio? (y/n): ', 's');
